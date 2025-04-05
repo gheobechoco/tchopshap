@@ -1,16 +1,8 @@
-// src/App.js
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import Home from "./pages/Home";
-
-// Créer un thème avec la couleur orange 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#FF6B1A',
-    },
-  },
-});
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { ThemeProvider, CssBaseline } from "@mui/material"
+import Home from "./pages/Home"
+import theme from "./theme"
+import "./App.css" // Assurez-vous que votre App.css est importé
 
 function App() {
   return (
@@ -22,7 +14,8 @@ function App() {
         </Routes>
       </Router>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App
+

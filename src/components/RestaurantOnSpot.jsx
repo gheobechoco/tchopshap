@@ -1,22 +1,10 @@
+"use client"
 
-
-import {
-  Box,
-  Typography,
-  Container,
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Link,
-  Stack,
-  Chip,
-  useTheme,
-} from "@mui/material"; 
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"; 
-import AccessTimeIcon from "@mui/icons-material/AccessTime"; 
-import EuroIcon from "@mui/icons-material/Euro"; 
-import StarIcon from "@mui/icons-material/Star"; 
+import { Box, Typography, Container, Card, CardMedia, CardContent, Link, Stack, Chip, useTheme } from "@mui/material"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
+import AccessTimeIcon from "@mui/icons-material/AccessTime"
+import EuroIcon from "@mui/icons-material/Euro"
+import StarIcon from "@mui/icons-material/Star"
 
 // Sample restaurant data
 const restaurants = [
@@ -81,7 +69,9 @@ export default function RestaurantOnSpot() {
 
   return (
     <Box sx={{ py: 6, bgcolor: "#f9f9f9" }}>
-      <Container maxWidth="lg">
+      <Container sx={{ px: { xs: 1, sm: 2 } }}>
+        {" "}
+        {/* Réduire les marges du conteneur */}
         <Box
           sx={{
             display: "flex",
@@ -110,72 +100,82 @@ export default function RestaurantOnSpot() {
             <ArrowForwardIosIcon sx={{ fontSize: 14, ml: 0.5 }} />
           </Link>
         </Box>
-
-        <Grid container spacing={3}>
+        {/* Utilisation de CSS Grid pour les restaurants */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr", // 1 colonne sur mobile
+              sm: "repeat(2, 1fr)", // 2 colonnes sur tablette et desktop
+            },
+            gap: 3,
+            width: "100%",
+          }}
+        >
           {restaurants.map((restaurant) => (
-            <Grid item xs={12} sm={6} key={restaurant.id}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
-                  boxShadow: "none",
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 2,
-                  overflow: "hidden",
-                  transition: "transform 0.3s",
-                  "&:hover": {
-                    transform: "translateY(-5px)",
-                    boxShadow: theme.shadows[3],
-                  },
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={restaurant.image}
-                  alt={restaurant.name}
-                  sx={{ objectFit: "cover" }}
-                />
-                <CardContent sx={{ flexGrow: 1, p: 2 }}>
-                  <Typography variant="h6" component="h3" gutterBottom>
-                    {restaurant.name}
-                  </Typography>
+            <Card
+              key={restaurant.id}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                boxShadow: "none",
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 2,
+                overflow: "hidden",
+                transition: "transform 0.3s",
+                "&:hover": {
+                  transform: "translateY(-5px)",
+                  boxShadow: theme.shadows[3],
+                },
+              }}
+            >
+              <CardMedia
+                component="img"
+                height="200"
+                image={restaurant.image}
+                alt={restaurant.name}
+                sx={{ objectFit: "cover" }}
+              />
+              <CardContent sx={{ flexGrow: 1, p: 2 }}>
+                <Typography variant="h6" component="h3" gutterBottom>
+                  {restaurant.name}
+                </Typography>
 
-                  <Stack direction="row" spacing={2} sx={{ mb: 1.5 }}>
-                    <Chip
-                      icon={<StarIcon sx={{ color: "#4CAF50 !important", fontSize: 16 }} />}
-                      label={restaurant.rating}
-                      size="small"
-                      sx={{
-                        bgcolor: "#E8F5E9",
-                        color: "#4CAF50",
-                        fontWeight: "bold",
-                        "& .MuiChip-icon": { ml: 0.5 },
-                      }}
-                    />
+                <Stack direction="row" spacing={2} sx={{ mb: 1.5 }}>
+                  <Chip
+                    icon={<StarIcon sx={{ color: "#4CAF50 !important", fontSize: 16 }} />}
+                    label={restaurant.rating}
+                    size="small"
+                    sx={{
+                      bgcolor: "#E8F5E9",
+                      color: "#4CAF50",
+                      fontWeight: "bold",
+                      "& .MuiChip-icon": { ml: 0.5 },
+                    }}
+                  />
 
-                    <Box sx={{ display: "flex", alignItems: "center", color: "text.secondary" }}>
-                      <AccessTimeIcon sx={{ fontSize: 16, mr: 0.5 }} />
-                      <Typography variant="body2">{restaurant.deliveryTime}</Typography>
-                    </Box>
+                  <Box sx={{ display: "flex", alignItems: "center", color: "text.secondary" }}>
+                    <AccessTimeIcon sx={{ fontSize: 16, mr: 0.5 }} />
+                    <Typography variant="body2">{restaurant.deliveryTime}</Typography>
+                  </Box>
 
-                    <Box sx={{ display: "flex", alignItems: "center", color: "text.secondary" }}>
-                      <EuroIcon sx={{ fontSize: 16, mr: 0.5 }} />
-                      <Typography variant="body2">{restaurant.price}</Typography>
-                    </Box>
-                  </Stack>
+                  <Box sx={{ display: "flex", alignItems: "center", color: "text.secondary" }}>
+                    <EuroIcon sx={{ fontSize: 16, mr: 0.5 }} />
+                    <Typography variant="body2">{restaurant.price}</Typography>
+                  </Box>
+                </Stack>
 
-                  <Typography variant="body2" color="text.secondary">
-                    {restaurant.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+                <Typography variant="body2" color="text.secondary">
+                  {restaurant.description}
+                </Typography>
+              </CardContent>
+            </Card>
           ))}
-        </Grid>
+        </Box>
       </Container>
     </Box>
   )
 }
+

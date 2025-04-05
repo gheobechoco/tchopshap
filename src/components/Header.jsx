@@ -1,16 +1,20 @@
-import { Link } from "react-router-dom"; 
-import { AppBar, Toolbar, Typography, Button, Box, Container} from "@mui/material"; 
-import PersonIcon from "@mui/icons-material/Person"; 
-import WalletIcon from '@mui/icons-material/Wallet';
-import Badge from '@mui/material/Badge'; 
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-
+import { Link } from "react-router-dom"
+import { AppBar, Toolbar, Typography, Button, Box, Container } from "@mui/material"
+import PersonIcon from "@mui/icons-material/Person"
+import WalletIcon from "@mui/icons-material/Wallet"
+import Badge from "@mui/material/Badge"
 
 export default function Header() {
   return (
     <AppBar position="fixed" color="default" elevation={4}>
-      <Container maxWidth="lg">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Container>
+        <Toolbar
+          sx={{
+            justifyContent: "space-between",
+            px: { xs: 1, sm: 1 }, // Padding horizontal minimal
+            width: "100%",
+          }}
+        >
           {/* Logo */}
           <Typography
             variant="h6"
@@ -39,18 +43,17 @@ export default function Header() {
           </Box>
 
           {/* Login - Right */}
-          <Button component={Link} to="/connexion" color="inherit" startIcon={<PersonIcon />}>
-            Connexion
-          </Button>
-
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Button component={Link} to="/connexion" color="inherit" startIcon={<PersonIcon />}>
+              Connexion
+            </Button>
             <Badge badgeContent={1} color="primary">
               <WalletIcon color="action" />
             </Badge>
           </Box>
-
         </Toolbar>
       </Container>
     </AppBar>
   )
 }
+

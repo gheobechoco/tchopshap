@@ -1,14 +1,15 @@
+"use client"
 
-import { Box, Typography, Container, Grid, Link, Stack, Divider, useTheme } from "@mui/material"; 
-import FacebookIcon from "@mui/icons-material/Facebook"; 
-import InstagramIcon from "@mui/icons-material/Instagram"; 
-import TwitterIcon from "@mui/icons-material/Twitter"; 
-import LocationOnIcon from "@mui/icons-material/LocationOn"; 
-import PhoneIcon from "@mui/icons-material/Phone"; 
-import EmailIcon from "@mui/icons-material/Email"; 
+import { Box, Typography, Container, Grid, Link, Stack, Divider, useTheme } from "@mui/material"
+import FacebookIcon from "@mui/icons-material/Facebook"
+import InstagramIcon from "@mui/icons-material/Instagram"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
+import PhoneIcon from "@mui/icons-material/Phone"
+import EmailIcon from "@mui/icons-material/Email"
 
 export default function Footer() {
-  
+  const theme = useTheme()
 
   return (
     <Box
@@ -18,8 +19,8 @@ export default function Footer() {
         py: 6,
       }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={4}>
+      <Container maxWidth="lg" sx={{ display: "flex", justifyContent: "center" }}>
+        <Grid container spacing={10} sx={{ justifyContent: "center" }}>
           {/* TchôpShap Column */}
           <Grid item xs={12} md={4}>
             <Typography variant="h6" component="h2" fontWeight="bold" gutterBottom>
@@ -49,7 +50,7 @@ export default function Footer() {
               Liens Rapides
             </Typography>
 
-            <Stack spacing={1}>
+            <Stack spacing={1} sx={{marginRight:"90px"}}>
               <Link href="#" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
                 Accueil
               </Link>
@@ -84,7 +85,7 @@ export default function Footer() {
                 </Typography>
               </Box>
 
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center"}}>
                 <PhoneIcon sx={{ mr: 1, fontSize: 20, color: "#FF6B1A" }} />
                 <Typography variant="body2" sx={{ opacity: 0.8 }}>
                   +33 1 23 45 67 89
@@ -101,12 +102,14 @@ export default function Footer() {
           </Grid>
         </Grid>
 
-        <Divider sx={{ my: 4, borderColor: "rgba(255, 255, 255, 0.1)" }} />
+        
+      </Container>
+      <Divider sx={{ my: 4, borderColor: "rgba(255, 255, 255, 0.1)" }} />
 
         <Typography variant="body2" align="center" sx={{ opacity: 0.6 }}>
           © 2025 TchôpShap. Tous droits réservés.
         </Typography>
-      </Container>
     </Box>
   )
 }
+

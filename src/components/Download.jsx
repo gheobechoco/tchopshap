@@ -1,25 +1,18 @@
-"use client";
+"use client"
 
-import { 
-  Box, 
-  Typography, 
-  Container, 
-  Grid, 
-  Button, 
-  useTheme, 
-  useMediaQuery 
-} from "@mui/material"; 
-import AppleIcon from "@mui/icons-material/Apple"; 
-import ShopIcon from "@mui/icons-material/Shop"; 
+import { Box, Typography, Container, Grid, Button, useTheme, useMediaQuery } from "@mui/material"
+import AppleIcon from "@mui/icons-material/Apple"
+import ShopIcon from "@mui/icons-material/Shop"
 
 export default function Download() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
 
   return (
     <Box
       sx={{
         py: 8,
+        mx: { xs: 2, sm: 3, md: 4 }, // Marges horizontales réduites
         bgcolor: "#fef6ed",
         color: "text.primary",
         borderRadius: "16px",
@@ -27,12 +20,11 @@ export default function Download() {
         overflow: "hidden",
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ display: "flex", justifyContent: "center" }}>
         <Grid container spacing={4} alignItems="center">
-          
           {/* Texte et boutons */}
           <Grid item xs={12} md={6}>
-            <Box sx={{ position: "relative", zIndex: 2 }}>
+            <Box sx={{ position: "relative", zIndex: 2, textAlign: "center" }}>
               <Typography variant="h4" component="h2" fontWeight="bold" gutterBottom>
                 Télécharger notre application
               </Typography>
@@ -42,7 +34,7 @@ export default function Download() {
                 notre application mobile.
               </Typography>
 
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ display: "flex", justifyContent: "center" }}>
                 <Grid item xs={12} sm={6}>
                   <Button
                     variant="contained"
@@ -95,9 +87,9 @@ export default function Download() {
               }}
             />
           </Grid>
-
-        </Grid> {/* Fermeture de la grille principale */}
+        </Grid>
       </Container>
     </Box>
-  );
+  )
 }
+
