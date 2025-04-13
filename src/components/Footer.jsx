@@ -8,6 +8,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn"
 import PhoneIcon from "@mui/icons-material/Phone"
 import EmailIcon from "@mui/icons-material/Email"
 
+
 export default function Footer() {
   const theme = useTheme()
 
@@ -51,19 +52,19 @@ export default function Footer() {
             </Typography>
 
             <Stack spacing={1} sx={{marginRight:"90px"}}>
-              <Link href="#" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
+              <Link href="/" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
                 Accueil
               </Link>
-              <Link href="#" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
+              <Link href="/restaurants" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
                 Restaurants
               </Link>
-              <Link href="#" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
+              <Link href="/details" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
                 Plats
               </Link>
-              <Link href="#" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
+              <Link href="/Login" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
                 Inscription
               </Link>
-              <Link href="#" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
+              <Link href="/checkout" color="inherit" underline="hover" sx={{ opacity: 0.8, "&:hover": { opacity: 1 } }}>
                 Connexion
               </Link>
             </Stack>
@@ -112,4 +113,5 @@ export default function Footer() {
     </Box>
   )
 }
+
 
