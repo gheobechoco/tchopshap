@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -16,6 +17,10 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const OrderConfirmation = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const customerName = location.state?.customerName || "Jean Dupont";
+
   return (
     <>
       {/* Entête personnalisée */}
@@ -31,27 +36,59 @@ const OrderConfirmation = () => {
 
           {/* Liens de navigation */}
           <Box sx={{ display: 'flex', gap: 4 }}>
-            <Button sx={{ color: '#333', textTransform: 'none' }}>Accueil</Button>
-            <Button sx={{ color: '#333', textTransform: 'none' }}>Restaurants</Button>
-            <Button sx={{ color: '#333', textTransform: 'none' }}>Plats</Button>
+            <Button 
+              component={Link}
+              to="/"
+              sx={{ 
+                color: '#333', 
+                textTransform: 'none',
+                '&:hover': { color: '#ff6600' }
+              }}
+            >
+              Accueil
+            </Button>
+            <Button 
+              component={Link}
+              to="/restaurants"
+              sx={{ 
+                color: '#333', 
+                textTransform: 'none',
+                '&:hover': { color: '#ff6600' }
+              }}
+            >
+              Restaurants
+            </Button>
+            <Button 
+              component={Link}
+              to="/details"
+              sx={{ 
+                color: '#333', 
+                textTransform: 'none',
+                '&:hover': { color: '#ff6600' }
+              }}
+            >
+              Plats
+            </Button>
           </Box>
 
           {/* Espace utilisateur */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Typography sx={{ color: '#333' }}>Bonjour,</Typography>
             <Typography sx={{ color: '#333', fontWeight: 'bold' }}>
-              Jean Dupont
+              {customerName}
             </Typography>
             <Button
+              onClick={() => navigate('/login')}
               sx={{
                 color: '#333',
                 textTransform: 'none',
                 fontWeight: 'medium',
+                '&:hover': { color: '#ff6600' }
               }}
             >
               Déconnexion
             </Button>
-            <IconButton>
+            <IconButton component={Link} to="/cart">
               <ShoppingBagOutlinedIcon sx={{ color: '#333' }} />
             </IconButton>
           </Box>
@@ -90,7 +127,7 @@ const OrderConfirmation = () => {
           <Typography align="center" color="text.secondary" mb={3}>
             Votre commande a été enregistrée avec succès.
           </Typography>
-it
+
           {/* Box grise contenant les deux infos */}
           <Box
             bgcolor="#f1f1f1"
@@ -125,13 +162,30 @@ it
               <Button
                 variant="contained"
                 fullWidth
-                sx={{ bgcolor: '#ff6600', '&:hover': { bgcolor: '#e65c00' } }}
+                onClick={() => navigate('/')}
+                sx={{ 
+                  bgcolor: '#ff6600', 
+                  '&:hover': {  
+                    bgcolor: '#e65c00',
+                    transition: 'background-color 0.3s ease'
+                  }
+                }}
               >
                 Retour à l'accueil
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button variant="outlined" fullWidth>
+              <Button 
+                variant="outlined" 
+                fullWidth
+                onClick={() => navigate('/restaurants')}
+                sx={{
+                  '&:hover': {
+                    borderColor: '#ff6600',
+                    color: '#ff6600'
+                  }
+                }}
+              >
                 Commander à nouveau
               </Button>
             </Grid>

@@ -71,13 +71,14 @@ export default function HeroSection() {
               color="primary"
               startIcon={<SearchIcon />}
               sx={{
-                bgcolor: alpha(theme.palette.common.white, 0.9),
-                color: "#FF6B1A",
+                bgcolor: "#FF7A00",
+                color: "#FFF",
                 borderTopLeftRadius: { xs: 4, sm: 0 },
                 borderBottomLeftRadius: { xs: 4, sm: 0 },
                 px: 3,
                 "&:hover": {
-                  bgcolor: theme.palette.common.white,
+                  bgcolor: theme.palette.common.white ,
+                  color: theme.palette.primary.main,
                 },
               }}
             >
@@ -91,7 +92,7 @@ export default function HeroSection() {
       <Box
         sx={{
           position: "absolute",
-          bottom: -1,
+          bottom: -20,
           left: 0,
           width: "100%",
           height: "100px",

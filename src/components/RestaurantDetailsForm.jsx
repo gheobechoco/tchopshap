@@ -98,8 +98,14 @@ const RestaurantDetails = () => {
       <Header />
 
 
-      <Box sx={{ p: 2 }}>
-  <h2 style={{ marginBottom: "1rem" }}>Plats</h2>
+      <Box sx={{ p: 2, mt: 8  }}>
+      <Typography variant="h4" component="h2" sx={{ 
+    mb: 3,
+    fontWeight: 'bold',
+    color: 'text.primary'
+  }}>
+    Plats
+  </Typography>
 
   <Paper
     sx={{display: "flex", alignItems: "center",

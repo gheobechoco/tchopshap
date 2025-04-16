@@ -6,6 +6,7 @@
 
   function ProfileForm() {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("card");
+    const [fullName, setFullName] = useState("Jean Dupont"); // État pour le nom
     const navigate = useNavigate();
 
 
@@ -14,7 +15,7 @@
     }
 
     function handleConfirmOrder() { // ✅ Étape 3
-      navigate("/confirmation");
+      navigate("/confirmation", { state: { customerName: fullName } });
     }
   
 
@@ -30,7 +31,7 @@
         <Typography style={{ color:"#666", marginBottom:"8px", marginLeft:"18px"}}>Remplissez les informations ci-dessous pour finaliser votre commande</Typography>
         <Paper elevation={0} style={{ border: "1px solid #e0e0e0", padding: "16px" , margin:"16px"}}>
         <Typography>Informations de livraison</Typography>
-        <TextField  fullWidth label="Nom complet" defaultValue="Jean Dupont" style={{marginBottom: "16px"}}/>
+        <TextField fullWidth label="Nom complet" value={fullName} onChange={(e) => setFullName(e.target.value)}style={{marginBottom: "16px"}}/>
         <TextField  fullWidth label="Adresse de livraison" placeholder="Adresse complète de livraison"  multiline rows={2}   style={{marginBottom: "16px"}}/>
         <TextField fullWidth label="Numero de telephone" placeholder="Pour vous contacter en cas de besoin" style={{marginBottom: "16px"}}/>
         <TextField fullWidth label="Instruction Special" placeholder="Instructions pour la livraison ou la préparation" multiline rows={2}  style={{ marginBottom: "16px"}}/>
