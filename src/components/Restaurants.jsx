@@ -18,11 +18,13 @@ import {
   MenuItem,
   Paper,
   Select,
-  SelectChangeEvent,
   Toolbar,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Person, Search as SearchIcon, ShoppingBasket, Star } from "@mui/icons-material";
+import Footer from "../components/Footer";
 
 const categories = [
   "Tous",
@@ -34,9 +36,10 @@ const categories = [
   "Desserts",
 ];
 
-const restaurants = [
+const restaurantsData = [
   {
     name: "Le Bistrot Parisien",
+    category: "Cuisine Française",
     rating: 4.9,
     time: "25-35 min",
     price: "5.00 €",
@@ -46,6 +49,7 @@ const restaurants = [
   },
   {
     name: "Sushi Palace",
+    category: "Sushi",
     rating: 4.8,
     time: "30-45 min",
     price: "4.00 €",
@@ -55,6 +59,7 @@ const restaurants = [
   },
   {
     name: "Le Burger Gourmet",
+    category: "Burgers",
     rating: 4.7,
     time: "20-30 min",
     price: "2.50 €",
@@ -64,6 +69,7 @@ const restaurants = [
   },
   {
     name: "Douceurs Sucrées",
+    category: "Desserts",
     rating: 4.7,
     time: "15-25 min",
     price: "3.00 €",
@@ -73,6 +79,7 @@ const restaurants = [
   },
   {
     name: "Pasta Fresca",
+    category: "Pizza",
     rating: 4.6,
     time: "25-35 min",
     price: "6.00 €",
@@ -82,6 +89,7 @@ const restaurants = [
   },
   {
     name: "Tacos Maison",
+    category: "Pizza",
     rating: 4.5,
     time: "20-30 min",
     price: "4.50 €",
@@ -94,25 +102,60 @@ const restaurants = [
 export default function RestaurantsPage() {
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const [sortBy, setSortBy] = useState("Popularité");
+  const [searchQuery, setSearchQuery] = useState("");
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleSortChange = (event: SelectChangeEvent) => {
+  const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
 
+  const filteredRestaurants = restaurantsData.filter(resto => {
+    const categoryMatch = selectedCategory === "Tous" || resto.category === selectedCategory;
+    const searchMatch = resto.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                       resto.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return categoryMatch && searchMatch;
+  });
+
+  const sortedRestaurants = [...filteredRestaurants].sort((a, b) => {
+    if (sortBy === "Note") return b.rating - a.rating;
+    if (sortBy === "Temps de livraison") {
+      return parseInt(a.time.split('-')[0]) - parseInt(b.time.split('-')[0]);
+    }
+    return 0;
+  });
+
   return (
     <Box sx={{ bgcolor: "#f9f9f9", minHeight: "100vh" }}>
-      <AppBar position="static" sx={{ bgcolor: "white", boxShadow: "none" }}>
-        <Toolbar>
+      <AppBar
+        position="static"
+        sx={{
+          bgcolor: "white",
+          boxShadow: "none",
+          // En version mobile, l'AppBar prendra toute la largeur du viewport
+          width: isMobile ? '100%' : 'auto',
+          // Si vous avez une largeur maximale sur le Container, centrez l'AppBar si nécessaire
+          maxWidth: isMobile ? 'none' : 'lg',
+          margin: isMobile ? 0 : '0 auto',
+        }}
+      >
+        <Toolbar sx={{
+          // Ajustez le padding horizontal de la Toolbar en version mobile si nécessaire
+          px: isMobile ? 2 : undefined,
+          display: 'flex',
+          justifyContent: 'space-between', // Aligne les éléments à gauche et à droite
+        }}>
           <Typography variant="h6" sx={{ color: "#FF7A00", fontWeight: "bold" }}>
             TchôpShap
           </Typography>
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", gap: 3 }}>
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", gap: 3, display: isMobile ? 'none' : 'flex' }}>
             <Typography sx={{ color: "black" }}>Accueil</Typography>
             <Typography sx={{ color: "black", fontWeight: "bold" }}>Restaurants</Typography>
             <Typography sx={{ color: "black" }}>Plats</Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", mr: 2, display: isMobile ? 'none' : 'flex' }}>
               <Person sx={{ color: "black", mr: 0.5 }} />
               <Typography sx={{ color: "black" }}>Connexion</Typography>
             </Box>
@@ -123,12 +166,19 @@ export default function RestaurantsPage() {
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4, px: isMobile ? 2 : 3 }}>
         <Typography variant="h4" sx={{ fontWeight: "bold", mb: 3 }}>
           Restaurants
         </Typography>
 
-        <Paper sx={{ p: 2, mb: 3, display: "flex", flexWrap: "wrap", gap: 2 }}>
+        <Paper sx={{
+          p: 2,
+          mb: 3,
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 2,
+          flexDirection: isMobile ? 'column' : 'row'
+        }}>
           <Box
             sx={{
               flex: 1,
@@ -141,19 +191,31 @@ export default function RestaurantsPage() {
             }}
           >
             <SearchIcon sx={{ color: "action.active", mr: 1 }} />
-            <InputBase placeholder="Rechercher un restaurant..." fullWidth />
+            <InputBase
+              placeholder="Rechercher un restaurant..."
+              fullWidth
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </Box>
 
           <FormControl size="small" sx={{ minWidth: 180 }}>
             <InputLabel>Toutes les catégories</InputLabel>
-            <Select label="Toutes les catégories" value="">
-              <MenuItem value="">Toutes les catégories</MenuItem>
+            <Select
+              label="Toutes les catégories"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <MenuItem value="Tous">Toutes les catégories</MenuItem>
+              {categories.slice(1).map((category) => (
+                <MenuItem key={category} value={category}>{category}</MenuItem>
+              ))}
             </Select>
           </FormControl>
 
           <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Popularité</InputLabel>
-            <Select label="Popularité" value={sortBy} onChange={handleSortChange}>
+            <InputLabel>Trier par</InputLabel>
+            <Select label="Trier par" value={sortBy} onChange={handleSortChange}>
               <MenuItem value="Popularité">Popularité</MenuItem>
               <MenuItem value="Note">Note</MenuItem>
               <MenuItem value="Temps de livraison">Temps de livraison</MenuItem>
@@ -177,12 +239,27 @@ export default function RestaurantsPage() {
           ))}
         </Box>
 
-        <Grid container spacing={3} display='grid' gridTemplateColumns='1fr 1fr'>
-          {restaurants.map((resto, index) => (
-            <Grid item xs={12} md={6} key={index}>
-              <Card>
-                <CardMedia component="img" height="160" image={resto.image} alt={resto.name} />
-                <CardContent>
+        <Grid
+          container
+          spacing={3}
+          display='grid'
+          gridTemplateColumns={{
+            xs: '1fr',
+            sm: '1fr 1fr',
+            md: '1fr 1fr'
+          }}
+        >
+          {sortedRestaurants.map((resto, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardMedia
+                  component="img"
+                  height="160"
+                  image={resto.image}
+                  alt={resto.name}
+                  sx={{ objectFit: 'cover' }}
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
                   <Typography variant="h6" fontWeight="bold">
                     {resto.name}
                   </Typography>
@@ -208,6 +285,7 @@ export default function RestaurantsPage() {
           ))}
         </Grid>
       </Container>
+      <Footer />
     </Box>
   );
 }

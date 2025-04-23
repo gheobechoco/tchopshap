@@ -1,127 +1,127 @@
-/* Ajoutez ces styles à votre fichier index.css existant */
+  /* Ajoutez ces styles à votre fichier index.css existant */
 
-/* Styles globaux pour réduire les marges */
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-/* Forcer les conteneurs à avoir des marges minimales */
-.MuiContainer-root {
-  padding-left: 8px !important;
-  padding-right: 8px !important;
-  max-width: 100% !important;
-}
-
-@media (min-width: 600px) {
-  .MuiContainer-root {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+  /* Styles globaux pour réduire les marges */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
   }
-}
 
-/* Assurer que le contenu ne déborde pas */
-.MuiBox-root,
-.MuiGrid-root {
-  box-sizing: border-box;
-}
+  /* Forcer les conteneurs à avoir des marges minimales */
+  .MuiContainer-root {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    max-width: 100% !important;
+  }
 
-/* Ajoutez ceci à votre index.css existant */
+  @media (min-width: 600px) {
+    .MuiContainer-root {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+  }
 
-/* Styles de confirmation de commande */
-.confirmation-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
+  /* Assurer que le contenu ne déborde pas */
+  .MuiBox-root,
+  .MuiGrid-root {
+    box-sizing: border-box;
+  }
 
-.confirmation-container h1 {
-  color: #2c3e50;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-}
+  /* Ajoutez ceci à votre index.css existant */
 
-.confirmation-container h2 {
-  color: #34495e;
-  margin-bottom: 1.25rem;
-  font-size: 1.5rem;
-}
+  /* Styles de confirmation de commande */
+  .confirmation-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
 
-.confirmation-message {
-  background-color: #f8f9fa;
-  padding: 1rem;
-  border-radius: 6px;
-  margin-bottom: 1.5rem;
-  border-left: 4px solid #3498db;
-}
+  .confirmation-container h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+  }
 
-.confirmation-message p {
-  margin: 0.5rem 0;
-  line-height: 1.5;
-}
+  .confirmation-container h2 {
+    color: #34495e;
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+  }
 
-.order-details {
-  width: 100%;
-  margin-bottom: 1.5rem;
-  border-collapse: collapse;
-}
+  .confirmation-message {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #3498db;
+  }
 
-.order-details td {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #ecf0f1;
-}
+  .confirmation-message p {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+  }
 
-.order-details td:first-child {
-  width: 40%;
-  font-weight: 600;
-  color: #7f8c8d;
-}
+  .order-details {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-collapse: collapse;
+  }
 
-.confirmation-divider {
-  height: 1px;
-  background-color: #ecf0f1;
-  margin: 1.5rem 0;
-}
+  .order-details td {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #ecf0f1;
+  }
 
-.confirmation-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
+  .order-details td:first-child {
+    width: 40%;
+    font-weight: 600;
+    color: #7f8c8d;
+  }
 
-.confirmation-primary-btn {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  flex: 1;
-  font-weight: 600;
-  transition: background-color 0.2s;
-}
+  .confirmation-divider {
+    height: 1px;
+    background-color: #ecf0f1;
+    margin: 1.5rem 0;
+  }
 
-.confirmation-secondary-btn {
-  background-color: white;
-  color: #3498db;
-  border: 1px solid #3498db;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  flex: 1;
-  font-weight: 600;
-  transition: all 0.2s;
-}
+  .confirmation-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 
-.confirmation-primary-btn:hover {
-  background-color: #2980b9;
-}
+  .confirmation-primary-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    flex: 1;
+    font-weight: 600;
+    transition: background-color 0.2s;
+  }
 
-.confirmation-secondary-btn:hover {
-  background-color: #f8f9fa;
-}
+  .confirmation-secondary-btn {
+    background-color: white;
+    color: #3498db;
+    border: 1px solid #3498db;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    flex: 1;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .confirmation-primary-btn:hover {
+    background-color: #2980b9;
+  }
+
+  .confirmation-secondary-btn:hover {
+    background-color: #f8f9fa;
+  }

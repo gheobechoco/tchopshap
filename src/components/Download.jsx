@@ -78,7 +78,7 @@ export default function Download() {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="/images/Image (14).svg" // Remplace par ton image réelle
+              src="/images/download..svg" // Remplace par ton image réelle
               alt="Tacos"
               sx={{
                 width: "100%",

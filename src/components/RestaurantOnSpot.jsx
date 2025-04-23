@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Box, Typography, Container, Card, CardMedia, CardContent, Link, Stack, Chip, useTheme } from "@mui/material"
+import { Box, Typography, Container, Card, CardMedia, CardContent, Link, Stack, Chip, useTheme, useMediaQuery } from "@mui/material"
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
 import AccessTimeIcon from "@mui/icons-material/AccessTime"
 import EuroIcon from "@mui/icons-material/Euro"
@@ -47,7 +47,7 @@ const restaurants = [
   {
     id: 5,
     name: "Le Bistrot Parisien",
-    image: "/images/Image (14).svg",
+    image: "/images/bistrot-pari.svg",
     rating: 4.9,
     deliveryTime: "25-35 min",
     price: "5.00 €",
@@ -66,11 +66,11 @@ const restaurants = [
 
 export default function RestaurantOnSpot() {
   const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <Box sx={{ py: 6, bgcolor: "#f9f9f9" }}>
       <Container sx={{ px: { xs: 1, sm: 2 } }}>
-        {" "}
         {/* Réduire les marges du conteneur */}
         <Box
           sx={{
@@ -78,9 +78,11 @@ export default function RestaurantOnSpot() {
             justifyContent: "space-between",
             alignItems: "center",
             mb: 3,
+            flexDirection: isMobile ? 'column' : 'row', // Stack on mobile
+            gap: isMobile ? 2 : 0
           }}
         >
-          <Typography variant="h5" component="h2" fontWeight="bold">
+          <Typography variant="h5" component="h2" fontWeight="bold" sx={{mb: isMobile? 2: 0}}>
             Restaurants Populaires
           </Typography>
 
@@ -106,7 +108,8 @@ export default function RestaurantOnSpot() {
             display: "grid",
             gridTemplateColumns: {
               xs: "1fr", // 1 colonne sur mobile
-              sm: "repeat(2, 1fr)", // 2 colonnes sur tablette et desktop
+              sm: "repeat(2, 1fr)", // 2 colonnes sur tablette
+              md: "repeat(2, 1fr)" // 3 on desktop
             },
             gap: 3,
             width: "100%",
@@ -143,7 +146,7 @@ export default function RestaurantOnSpot() {
                   {restaurant.name}
                 </Typography>
 
-                <Stack direction="row" spacing={2} sx={{ mb: 1.5 }}>
+                <Stack direction="row" spacing={2} sx={{ mb: 1.5, flexDirection: isMobile? 'column': 'row' }}>
                   <Chip
                     icon={<StarIcon sx={{ color: "#4CAF50 !important", fontSize: 16 }} />}
                     label={restaurant.rating}
@@ -153,6 +156,7 @@ export default function RestaurantOnSpot() {
                       color: "#4CAF50",
                       fontWeight: "bold",
                       "& .MuiChip-icon": { ml: 0.5 },
+                      mb: isMobile? 0.5: 0
                     }}
                   />
 
@@ -178,4 +182,3 @@ export default function RestaurantOnSpot() {
     </Box>
   )
 }
-
