@@ -1,12 +1,11 @@
-// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css'; // Utilisez index.css au lieu de styles.css
 import App from './App';
+import { CartProvider } from './contexts/CartContext';
+// …
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <CartProvider>
     <App />
-  </React.StrictMode>
+  </CartProvider>
 );

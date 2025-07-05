@@ -1,225 +1,119 @@
-"use client";
-
-import { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from '../contexts/CartContext';
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Container,
-  Card,
-  Box,
-  IconButton,
-  Badge,
-  Divider,
-  Stack,
-  useMediaQuery,
-  useTheme,
+  AppBar, Toolbar, Typography, Button, Container,
+  Card, Box, IconButton, Badge, Divider, useMediaQuery
 } from "@mui/material";
-import {
-  ShoppingCart,
-  Remove,
-  Add,
-  Delete,
-  Instagram,
-  Twitter,
-  Language,
-  LocationOn,
-  Phone,
-  Email,
-} from "@mui/icons-material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ShoppingCart, Remove, Add, Delete } from "@mui/icons-material";
 
-// Custom theme to match the design exactly
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#FF6B00", // Orange color from the design
-    },
-    secondary: {
-      main: "#1E2A38", // Dark blue/black for the footer
-    },
-    background: {
-      default: "#F8F9FA",
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none",
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.05)",
-          borderRadius: 8,
-        },
-      },
-    },
-  },
-});
-
-export default function CartForm() {
-  const [quantity, setQuantity] = useState(1);
+const CartForm = () => {
+  const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
   const navigate = useNavigate();
-  const muiTheme = useTheme();
-  const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery('(max-width:600px)');
 
-  const unitPrice = 12.9;
-  const deliveryFee = 2.99;
-  const subtotal = unitPrice * quantity;
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.prix * item.quantity), 0);
+  const deliveryFee = cartItems.length > 0 ? 500 : 0;
   const total = subtotal + deliveryFee;
 
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      alert("Votre panier est vide");
+      return;
     }
-  };
-
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const handleDelete = () => {
-    setQuantity(0);
+    navigate("/checkout");
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-          bgcolor: "background.default",
-        }}
-      >
-        {/* Header */}
-        <AppBar position="static" color="default" elevation={0} sx={{ bgcolor: "white" }}>
-          <Toolbar
-            sx={{
-              justifyContent: "space-between",
-              paddingX: isMobile ? 2 : 3,
-            }}
-          >
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1, color: "primary.main", fontWeight: "bold" }}
+    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5" }}>
+      <AppBar position="static" color="default" elevation={0}>
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>TchôpShap</Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={cartItems.reduce((acc, item) => acc + item.quantity, 0)} color="error">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Typography variant="h4" sx={{ mb: 3 }}>Votre Panier</Typography>
+
+        {cartItems.length === 0 ? (
+          <Box textAlign="center" py={4}>
+            <Typography variant="h6" sx={{ mb: 2 }}>Votre panier est vide</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/")}
             >
-              TchôpShap
-            </Typography>
+              Voir le menu
+            </Button>
+          </Box>
+        ) : (
+          <>
+            {cartItems.map(item => (
+              <Card key={item.id_plat} sx={{ mb: 2 }}>
+                <Box sx={{ display: "flex", p: 2, alignItems: "center" }}>
+                  <Box
+                    component="img"
+                    src={item.image}
+                    alt={item.nom}
+                    sx={{ width: 80, height: 80, borderRadius: 1, mr: 2 }}
+                  />
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Typography variant="body1">{item.nom}</Typography>
+                    <Typography variant="body2">{item.prix} FCFA</Typography>
+                  </Box>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <IconButton onClick={() => updateQuantity(item.id_plat, item.quantity - 1)}>
+                      <Remove />
+                    </IconButton>
+                    <Typography sx={{ mx: 1 }}>{item.quantity}</Typography>
+                    <IconButton onClick={() => updateQuantity(item.id_plat, item.quantity + 1)}>
+                      <Add />
+                    </IconButton>
+                    <IconButton onClick={() => removeFromCart(item.id_plat)} sx={{ ml: 1 }}>
+                      <Delete color="error" />
+                    </IconButton>
+                  </Box>
+                </Box>
+              </Card>
+            ))}
 
-            <Box sx={{ display: isMobile ? "none" : "flex", gap: 2 }}>
-              <Button color="inherit">Accueil</Button>
-              <Button color="inherit">Restaurants</Button>
-              <Button color="inherit">Plats</Button>
-            </Box>
+            <Divider sx={{ my: 3 }} />
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, ml: 2 }}>
-              <Button color="inherit" sx={{ display: isMobile ? "none" : "block" }}>
-                Connexion
-              </Button>
-              <IconButton color="inherit">
-                <Badge badgeContent={3} color="primary">
-                  <ShoppingCart />
-                </Badge>
-              </IconButton>
-            </Box>
-          </Toolbar>
-        </AppBar>
-
-        {/* Main Content */}
-        <Container maxWidth="md" sx={{ py: 4, flexGrow: 1, px: isMobile ? 2 : 3 }}>
-          <Typography variant="h5" sx={{ mb: 3, fontWeight: 500 }}>
-            Votre panier
-          </Typography>
-
-          {/* Cart Items Card */}
-          <Card sx={{ mb: 3 }}>
-            <Box sx={{ p: 3, display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center" }}>
-              <Box
-                component="img"
-                src="/images/burger.svg"
-                alt="Burger Classique"
-                sx={{
-                  width: isMobile ? 80 : 60,
-                  height: isMobile ? 80 : 60,
-                  mr: isMobile ? 0 : 2,
-                  mb: isMobile ? 2 : 0,
-                  borderRadius: "4px",
-                }}
-              />
-
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="body1">Burger Classique</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {unitPrice.toFixed(2)}€
-                </Typography>
-              </Box>
-
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <IconButton size="small" onClick={handleDecrement}>
-                  <Remove fontSize="small" />
-                </IconButton>
-                <Typography>{quantity}</Typography>
-                <IconButton size="small" onClick={handleIncrement}>
-                  <Add fontSize="small" />
-                </IconButton>
-                <IconButton size="small" onClick={handleDelete}>
-                  <Delete fontSize="small" />
-                </IconButton>
-              </Box>
-            </Box>
-          </Card>
-
-          {/* Summary Card */}
-          <Card>
-            <Box sx={{ p: 3 }}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Récapitulatif
-              </Typography>
-
+            <Box sx={{ bgcolor: "white", p: 3, borderRadius: 2 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-                <Typography variant="body2">Sous-total</Typography>
-                <Typography variant="body2">{subtotal.toFixed(2)}€</Typography>
+                <Typography>Sous-total:</Typography>
+                <Typography>{subtotal} FCFA</Typography>
               </Box>
-
               <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-                <Typography variant="body2">Frais de livraison</Typography>
-                <Typography variant="body2">{deliveryFee.toFixed(2)}€</Typography>
+                <Typography>Frais de livraison:</Typography>
+                <Typography>{deliveryFee} FCFA</Typography>
               </Box>
-
-              <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
-                <Typography variant="body1" fontWeight="bold">
-                  Total
-                </Typography>
-                <Typography variant="body1" fontWeight="bold">
-                  {total.toFixed(2)}€
-                </Typography>
+              <Divider />
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                <Typography variant="h6">Total:</Typography>
+                <Typography variant="h6">{total} FCFA</Typography>
               </Box>
 
               <Button
-                variant="contained"
-                color="primary"
                 fullWidth
+                variant="contained"
                 size="large"
-                sx={{ py: 1.5, borderRadius: 1 }}
-                onClick={() => navigate("/checkout")}
+                sx={{ mt: 3, py: 1.5 }}
+                onClick={handleCheckout}
               >
-                <Typography color="white">Commander</Typography>
+                Passer la commande
               </Button>
             </Box>
-          </Card>
-        </Container>
-      </Box>
-    </ThemeProvider>
+          </>
+        )}
+      </Container>
+    </Box>
   );
-}
+};
+
+export default CartForm;

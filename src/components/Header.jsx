@@ -17,14 +17,19 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-import WalletIcon from '@mui/icons-material/Wallet';
-import CloseIcon from '@mui/icons-material/Close'; // Import de l'icône de fermeture
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; // Changé WalletIcon en ShoppingCartIcon
+import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext'; // Import du contexte panier
 
 export default function Header() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { cartItems } = useCart(); // Récupération des articles du panier
+
+  // Calcul du nombre total d'articles dans le panier
+  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const navItems = [
     { text: 'Accueil', to: '/' },
@@ -41,7 +46,14 @@ export default function Header() {
             variant="h6"
             component={Link}
             to="/"
-            sx={{ textDecoration: 'none', color: '#FF7A00', fontWeight: 'bold' }}
+            sx={{ 
+              textDecoration: 'none', 
+              color: '#FF7A00', 
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1
+            }}
           >
             TchôpShap
           </Typography>
@@ -49,35 +61,46 @@ export default function Header() {
           {isMobile ? (
             <>
               {/* Mobile menu button */}
-              <IconButton edge="start" color="inherit" onClick={() => setDrawerOpen(true)}>
-                <MenuIcon />
-              </IconButton>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <IconButton component={Link} to="/cart" color="inherit">
+                  <Badge badgeContent={totalItems} color="primary">
+                    <ShoppingCartIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton edge="start" color="inherit" onClick={() => setDrawerOpen(true)}>
+                  <MenuIcon />
+                </IconButton>
+              </Box>
 
               {/* Drawer for mobile nav */}
               <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-                {/* Close button in the Drawer */}
-                <IconButton
-                  onClick={() => setDrawerOpen(false)}
-                  sx={{ position: 'absolute', top: 10, right: 60 }}
-                >
-                  <CloseIcon />
-                </IconButton>
-                <Box sx={{ width: 250, p: 2 }} onClick={() => setDrawerOpen(false)}>
-                  <List>
+                <Box sx={{ width: 250, p: 2 }}>
+                  <IconButton
+                    onClick={() => setDrawerOpen(false)}
+                    sx={{ position: 'absolute', top: 10, right: 10 }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  <List sx={{ mt: 4 }}>
                     {navItems.map((item) => (
-                      <ListItem key={item.text} button component={Link} to={item.to}>
+                      <ListItem 
+                        key={item.text} 
+                        button 
+                        component={Link} 
+                        to={item.to}
+                        onClick={() => setDrawerOpen(false)}
+                      >
                         <ListItemText primary={item.text} />
                       </ListItem>
                     ))}
-                    <ListItem button component={Link} to="/login">
+                    <ListItem 
+                      button 
+                      component={Link} 
+                      to="/login"
+                      onClick={() => setDrawerOpen(false)}
+                    >
                       <PersonIcon sx={{ mr: 1 }} />
                       <ListItemText primary="Connexion" />
-                    </ListItem>
-                    <ListItem button component={Link} to="/cart">
-                      <Badge badgeContent={1} color="primary">
-                        <WalletIcon />
-                      </Badge>
-                      <ListItemText primary="Panier" sx={{ ml: 1 }} />
                     </ListItem>
                   </List>
                 </Box>
@@ -93,7 +116,13 @@ export default function Header() {
                     component={Link}
                     to={item.to}
                     color="inherit"
-                    sx={{ '&:hover': { color: '#ff6600' } }}
+                    sx={{ 
+                      '&:hover': { 
+                        color: '#FF7A00',
+                        backgroundColor: 'rgba(255, 122, 0, 0.08)' 
+                      },
+                      fontWeight: 500
+                    }}
                   >
                     {item.text}
                   </Button>
@@ -107,13 +136,41 @@ export default function Header() {
                   to="/login"
                   color="inherit"
                   startIcon={<PersonIcon />}
-                  sx={{ '&:hover': { color: '#ff6600' } }}
+                  sx={{ 
+                    '&:hover': { 
+                      color: '#FF7A00',
+                      backgroundColor: 'rgba(255, 122, 0, 0.08)' 
+                    },
+                    fontWeight: 500
+                  }}
                 >
                   Connexion
                 </Button>
-                <Badge badgeContent={1} color="primary">
-                  <WalletIcon color="action" />
-                </Badge>
+                <IconButton 
+                  component={Link} 
+                  to="/cart" 
+                  color="inherit"
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 122, 0, 0.08)'
+                    }
+                  }}
+                >
+                  <Badge 
+                    badgeContent={totalItems} 
+                    color="primary"
+                    overlap="circular"
+                    sx={{
+                      '& .MuiBadge-badge': {
+                        right: -3,
+                        top: 5,
+                        backgroundColor: '#FF7A00'
+                      }
+                    }}
+                  >
+                    <ShoppingCartIcon />
+                  </Badge>
+                </IconButton>
               </Box>
             </>
           )}
